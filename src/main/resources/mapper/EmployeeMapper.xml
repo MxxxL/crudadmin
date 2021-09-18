@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaiyu.dao.EmployeeMapper">
+
+    <select id="queryAll" resultType="com.kaiyu.pojo.Employee">
+        select *
+        from tb_employee
+    </select>
+
+    <select id="getEmpById" resultType="com.kaiyu.pojo.Employee" parameterType="integer">
+        select *
+        from tb_employee
+        where id = #{id}
+    </select>
+
+    <insert id="insertOneEmployee" parameterType="com.kaiyu.pojo.Employee">
+        insert into tb_employee(employee_name, email, gender, department_id, date)
+        values (#{employeeName}, #{email}, #{gender}, #{departmentId}, #{date})
+    </insert>
+
+    <update id="updateOneEmployee" parameterType="com.kaiyu.pojo.Employee">
+        update tb_employee
+        set employee_name = #{employeeName},
+            email         = #{email},
+            gender        = #{gender},
+            department_id =
+                #{departmentId},
+            date          = #{date}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOneEmployee" parameterType="integer">
+        delete
+        from tb_employee
+        where id = #{id}
+    </delete>
+</mapper>

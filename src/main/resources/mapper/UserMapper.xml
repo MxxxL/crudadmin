@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaiyu.dao.UserMapper">
+
+    <select id="findByName" resultType="com.kaiyu.pojo.User" parameterType="java.lang.String">
+        select *
+        from tb_user
+        where username = #{username}
+    </select>
+
+    <select id="findById" resultType="com.kaiyu.pojo.User" parameterType="integer">
+        select *
+        from tb_user
+        where id = #{id}
+    </select>
+
+    <select id="queryAll" resultType="com.kaiyu.pojo.User">
+        select *
+        from tb_user
+    </select>
+
+    <select id="findRoleIdByUserId" resultType="java.lang.Integer">
+        SELECT rid
+        FROM tb_user_role
+        WHERE uid = #{id}
+    </select>
+
+    <select id="findRoleByRid" resultType="com.kaiyu.pojo.Role">
+        SELECT *
+        FROM tb_role
+        WHERE
+        <if test="listId != null and listId.size() > 0">
+            id IN
+            <foreach collection="listId" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <insert id="addUser" parameterType="com.kaiyu.pojo.User">
+        insert into tb_user(username, password)
+        VALUES (#{username}, #{password})
+    </insert>
+
+    <insert id="addUserAndRole" parameterType="com.kaiyu.pojo.UserAndRole">
+        INSERT INTO tb_user_role
+        VALUES (#{uid}, #{rid})
+    </insert>
+
+    <update id="editUser" parameterType="com.kaiyu.pojo.User">
+        update tb_user
+        set username = #{username},
+            password = #{password}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="integer">
+        delete
+        from tb_user
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteUserRoleByUidAndRid">
+        DELETE
+        FROM tb_user_role
+        WHERE uid = #{uid}
+          and rid = #{rid}
+    </delete>
+
+    <delete id="deleteUserRoleByUid">
+        DELETE
+        FROM tb_user_role
+        WHERE uid = #{uid}
+    </delete>
+</mapper>

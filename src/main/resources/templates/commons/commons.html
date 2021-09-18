@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<!--头部导航栏-->
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0" th:fragment="topbar">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0"
+       href="http://getbootstrap.com/docs/4.0/examples/dashboard/#"
+       th:text="'欢迎您,'+${session.loginUser}"></a>
+    <input aria-label="Search" class="form-control form-control-dark w-100" placeholder="Search"
+           type="text">
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" href="#" th:href="@{/user/logout}">注销</a>
+        </li>
+    </ul>
+</nav>
+
+<!--侧边导航栏-->
+<nav class="col-md-2 d-none d-md-block bg-light sidebar" th:fragment="sidebar">
+
+    <div style="margin-top: 50px">
+        <ul>
+            <li class="menu" onclick="handleClick()" th:each="menu:${session.menus}">
+                <p style="font-size: x-large" th:text="${menu.getTitle()}"></p>
+                <ul class="menu-child" style="background-color: #b8daff">
+                    <li th:each="children:${menu.getChildMenu()}">
+                        <a style="font-size: large" th:href="@{${children.getUrl()}}"
+                           th:text="${children.getTitle()}"></a>
+                    </li>
+                </ul>
+
+            </li>
+        </ul>
+    </div>
+
+</nav>
+
+
+</html>
